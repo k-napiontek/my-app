@@ -1,0 +1,50 @@
+name: Build and Push App to ECR
+
+# TODO: Set ECR_REPOSITORY in repo Variables (terraform output ecr_repository_name, e.g. dev-myapp)
+env:
+  AWS_REGION: eu-central-1
+  AWS_IAM_ROLE: arn:aws:iam::438950223046:role/github-actions
+
+on:
+  push:
+    branches:
+    - main
+    paths:
+    - app/**
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    permissions:
+      id-token: write
+      contents: write
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v5
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v5
+      with:
+        audience: sts.amazonaws.com
+        aws-region: ${{ env.AWS_REGION }}
+        role-to-assume: ${{ env.AWS_IAM_ROLE }}
+
+    - name: Login to Amazon ECR
+      id: login-ecr
+      uses: aws-actions/amazon-ecr-login@v2
+
+    - name: Release new version
+      id: release
+      run: |
+        bash ./app/scripts/git_update.sh -v patch
+
+    - name: Build, tag, and push Docker image to Amazon ECR
+      env:
+        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        ECR_REPOSITORY: ${{ vars.ECR_REPOSITORY }}
+        IMAGE_TAG: ${{ steps.release.outputs.new-tag }}
+      run: |
+        docker build -f app/Dockerfile -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG app/
+        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
