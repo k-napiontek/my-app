@@ -65,6 +65,11 @@ module "argocd" {
   cluster_name        = module.eks.cluster_name
   ecr_repository_arn  = module.ecr.repository_arn
 
+  # Root Application (app-of-apps) – skąd brać aplikacje
+  app_of_apps_repo_url        = "https://github.com/k-napiontek/my-app.git"
+  app_of_apps_path            = "argocd/apps"
+  app_of_apps_target_revision = "main"
+
   depends_on = [module.eks]
 }
 
