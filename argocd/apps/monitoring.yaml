@@ -17,3 +17,6 @@ spec:
   destination:
     server: "https://kubernetes.default.svc"
     namespace: monitoring
+
+
+    # ADD NAMESPACE MONITORING TO APPLICATION  !!!!!!!!!!!!!!!
