@@ -62,6 +62,9 @@ module "eks" {
 module "argocd" {
   source = "../../modules/argocd"
 
+  cluster_name        = module.eks.cluster_name
+  ecr_repository_arn  = module.ecr.repository_arn
+
   depends_on = [module.eks]
 }
 

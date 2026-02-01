@@ -1,21 +1,21 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: root-apps-of-apps
+  name: myapp
   namespace: argocd
-  finalizers:
-    - resources-finalizer.argocd.argoproj.io
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+    argocd-image-updater.argoproj.io/image-list: myapp=438950223046.dkr.ecr.eu-central-1.amazonaws.com/dev-myapp
+    argocd-image-updater.argoproj.io/myapp.update-strategy: latest
 spec:
   project: default
   source:
     repoURL: https://github.com/k-napiontek/my-app.git
     targetRevision: main
-    path: argocd/apps
-    directory:
-      recurse: true
+    path: k8s/myapp
   destination:
     server: https://kubernetes.default.svc
-    namespace: argocd
+    namespace: myapp
   syncPolicy:
     automated:
       prune: true
