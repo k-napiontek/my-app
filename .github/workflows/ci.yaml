@@ -3,7 +3,7 @@ name: Build and Push App to ECR
 # TODO: Set ECR_REPOSITORY in repo Variables (terraform output ecr_repository_name, e.g. dev-myapp)
 env:
   AWS_REGION: eu-central-1
-  AWS_IAM_ROLE: arn:aws:iam::438950223046:role/github-actions
+  AWS_IAM_ROLE: arn:aws:iam::438950223046:role/dev-myapp-github-actions
 
 on:
   push:
