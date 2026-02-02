@@ -12,7 +12,7 @@ import (
 
 func main() {
 	mux := http.NewServeMux()
-	log.Println("Working...")
+	log.Println("Working....")
 	// Metrics middleware - liczy requesty, latency, status codes
 	mux.Handle("/", middleware.Metrics(http.HandlerFunc(handlers.Home)))
 	mux.Handle("/health", middleware.Metrics(http.HandlerFunc(handlers.Health)))
