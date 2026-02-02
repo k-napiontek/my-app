@@ -116,3 +116,23 @@ resource "aws_iam_role_policy" "argocd_image_updater_ecr_list" {
 
 #   depends_on = [helm_release.argocd]
 # }
+
+resource "tls_private_key" "git_deploy_key" {
+  algorithm = "ED25519"
+}
+
+# 2. Tworzymy sekret w AWS Secrets Manager
+resource "aws_secretsmanager_secret" "argocd_repo_secret" {
+  name                    = "argocd/repo-credentials"
+  recovery_window_in_days = 0
+}
+
+# 3. Zapisujemy klucz prywatny i URL do AWS
+resource "aws_secretsmanager_secret_version" "argocd_repo_secret_ver" {
+  secret_id     = aws_secretsmanager_secret.argocd_repo_secret.id
+  secret_string = jsonencode({
+    url           = var.app_of_apps_repo_url # np. git@github.com:k-napiontek/my-app.git
+    sshPrivateKey = tls_private_key.git_deploy_key.private_key_openssh
+  })
+}
+

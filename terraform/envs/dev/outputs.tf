@@ -12,3 +12,8 @@ output "github_role_arn" {
   value       = module.ecr.github_role_arn
   description = "IAM role ARN for GitHub Actions (use in AWS_ROLE_ARN secret)"
 }
+
+output "github_public_key" {
+  value = module.argocd.github_public_key
+  description = "GitHub public key for ArgoCD"
+}
