@@ -7,4 +7,4 @@ resources:
   - service.yaml
 images:
   - name: 438950223046.dkr.ecr.eu-central-1.amazonaws.com/dev-myapp
-    newTag: "v0.1.2" # <--- TO JEST LINIA, KTÓRĄ BĘDZIE ZMIENIAŁ ARGOCD
+    newTag: "v0.1.4" # <--- TO JEST LINIA, KTÓRĄ BĘDZIE ZMIENIAŁ ARGOCD
