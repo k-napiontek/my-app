@@ -81,38 +81,38 @@ resource "aws_iam_role_policy" "argocd_image_updater_ecr_list" {
   })
 }
 
-# Root Application (app-of-apps) – tworzone przez Terraform, nie ręcznie
-resource "kubernetes_manifest" "app_of_apps" {
-  manifest = {
-    apiVersion = "argoproj.io/v1alpha1"
-    kind       = "Application"
-    metadata = {
-      name      = "root-apps-of-apps"
-      namespace = "argocd"
-      finalizers = ["resources-finalizer.argocd.argoproj.io"]
-    }
-    spec = {
-      project = "default"
-      source = {
-        repoURL        = var.app_of_apps_repo_url
-        path           = var.app_of_apps_path
-        targetRevision = var.app_of_apps_target_revision
-        directory = {
-          recurse = true
-        }
-      }
-      destination = {
-        server    = "https://kubernetes.default.svc"
-        namespace = "argocd"
-      }
-      syncPolicy = {
-        automated = {
-          prune    = true
-          selfHeal  = true
-        }
-      }
-    }
-  }
+# # Root Application (app-of-apps) – tworzone przez Terraform, nie ręcznie
+# resource "kubernetes_manifest" "app_of_apps" {
+#   manifest = {
+#     apiVersion = "argoproj.io/v1alpha1"
+#     kind       = "Application"
+#     metadata = {
+#       name      = "root-apps-of-apps"
+#       namespace = "argocd"
+#       finalizers = ["resources-finalizer.argocd.argoproj.io"]
+#     }
+#     spec = {
+#       project = "default"
+#       source = {
+#         repoURL        = var.app_of_apps_repo_url
+#         path           = var.app_of_apps_path
+#         targetRevision = var.app_of_apps_target_revision
+#         directory = {
+#           recurse = true
+#         }
+#       }
+#       destination = {
+#         server    = "https://kubernetes.default.svc"
+#         namespace = "argocd"
+#       }
+#       syncPolicy = {
+#         automated = {
+#           prune    = true
+#           selfHeal  = true
+#         }
+#       }
+#     }
+#   }
 
-  depends_on = [helm_release.argocd]
-}
+#   depends_on = [helm_release.argocd]
+# }
