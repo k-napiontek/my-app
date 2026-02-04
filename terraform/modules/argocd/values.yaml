@@ -8,6 +8,6 @@ server:
   service:
     annotations:
       service.beta.kubernetes.io/aws-load-balancer-internal: "false"
-
+  
 crds:
   keep: false
