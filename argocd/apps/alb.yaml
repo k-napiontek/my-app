@@ -15,7 +15,8 @@ spec:
       releaseName: aws-load-balancer-controller
       values: |
         clusterName: dev-myapp 
-        region: eu-central-1        
+        region: eu-central-1
+        vpcId: vpc-07bb5bca081ec45a3       
         serviceAccount:
           create: true
           name: aws-load-balancer-controller
