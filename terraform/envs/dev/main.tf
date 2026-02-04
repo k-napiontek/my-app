@@ -59,6 +59,21 @@ module "eks" {
   tags = local.tags
 }
 
+module "ecr" {
+  source = "../../modules/ecr"
+
+  repository_name = "${var.env}-${var.project}"
+  github_repo     = var.github_repo
+
+  tags = local.tags
+}
+
+module "alb" {
+  source = "../../modules/alb"
+
+  oidc_provider_arn = module.eks.oidc_provider_arn
+}
+
 module "argocd" {
   source = "../../modules/argocd"
 
@@ -71,13 +86,4 @@ module "argocd" {
   app_of_apps_target_revision = "main"
 
   depends_on = [module.eks]
-}
-
-module "ecr" {
-  source = "../../modules/ecr"
-
-  repository_name = "${var.env}-${var.project}"
-  github_repo     = var.github_repo
-
-  tags = local.tags
 }

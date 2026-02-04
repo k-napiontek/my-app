@@ -64,22 +64,22 @@ resource "aws_eks_pod_identity_association" "argocd_image_updater" {
 }
 
 # Image Updater needs to list tags (DescribeImages, ListImages) – not in AmazonEC2ContainerRegistryReadOnly
-resource "aws_iam_role_policy" "argocd_image_updater_ecr_list" {
-  count = var.ecr_repository_arn != null ? 1 : 0
+# resource "aws_iam_role_policy" "argocd_image_updater_ecr_list" {
+#   count = var.ecr_repository_arn != null ? 1 : 0
 
-  name   = "${var.cluster_name}-argocd-image-updater-ecr-list"
-  role   = aws_iam_role.argocd_image_updater.id
-  policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Effect   = "Allow"
-        Action   = ["ecr:DescribeImages", "ecr:ListImages"]
-        Resource = var.ecr_repository_arn
-      }
-    ]
-  })
-}
+#   name   = "${var.cluster_name}-argocd-image-updater-ecr-list"
+#   role   = aws_iam_role.argocd_image_updater.id
+#   policy = jsonencode({
+#     Version = "2012-10-17"
+#     Statement = [
+#       {
+#         Effect   = "Allow"
+#         Action   = ["ecr:DescribeImages", "ecr:ListImages"]
+#         Resource = var.ecr_repository_arn
+#       }
+#     ]
+#   })
+# }
 
 # # Root Application (app-of-apps) – tworzone przez Terraform, nie ręcznie
 # resource "kubernetes_manifest" "app_of_apps" {

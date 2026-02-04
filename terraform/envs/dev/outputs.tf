@@ -17,3 +17,8 @@ output "github_public_key" {
   value = module.argocd.github_public_key
   description = "GitHub public key for ArgoCD"
 }
+
+output "alb_role_arn" {
+  value = module.alb.alb_role_arn
+  description = "IAM role ARN for ALB Controller"
+}
