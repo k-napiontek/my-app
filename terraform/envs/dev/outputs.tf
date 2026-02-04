@@ -22,3 +22,8 @@ output "alb_role_arn" {
   value = module.alb.alb_role_arn
   description = "IAM role ARN for ALB Controller"
 }
+
+
+output "external_secrets_role_arn" {
+  value = module.external_secrets_irsa_role.iam_role_arn
+}

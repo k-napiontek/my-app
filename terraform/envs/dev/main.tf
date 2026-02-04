@@ -87,3 +87,21 @@ module "argocd" {
 
   depends_on = [module.eks]
 }
+
+
+
+module "external_secrets_irsa_role" {
+  source  = "terraform-aws-modules/iam/aws//modules/iam-role-for-service-accounts-eks"
+  version = "~> 5.0"
+
+  role_name = "external-secrets-role"
+
+  attach_external_secrets_policy = true # To jest ta magia, która dodaje uprawnienia do sekretów
+
+  oidc_providers = {
+    main = {
+      provider_arn               = module.eks.oidc_provider_arn
+      namespace_service_accounts = ["external-secrets:external-secrets"] # namespace:serviceaccount
+    }
+  }
+}
