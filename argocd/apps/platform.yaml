@@ -11,6 +11,8 @@ spec:
     repoURL: https://github.com/k-napiontek/my-app.git
     targetRevision: main
     path: platform # Wskazuje na folder 'platform'
+    kustomize:
+      buildOptions: --enable-helm
   destination:
     server: https://kubernetes.default.svc
     # ZMIANA 1: Nie wymuszaj namespace 'myapp'. Zostaw 'argocd' lub 'default'.
